@@ -3,13 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using PetAPI.Data;
 using PetAPI.Models;
 using System.Runtime.InteropServices;
+using PetAPI.Services;
+using PetAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<FileService>();
 
 builder.Services.AddDbContext<PetDatabaseContext>();
 
@@ -20,6 +25,10 @@ app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.MapControllers();
 
 async Task<List<PetInformationTable>> GetPets(PetDatabaseContext db) => await db.PetInformationTable.ToListAsync();
 
