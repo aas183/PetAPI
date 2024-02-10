@@ -27,7 +27,7 @@ public class FilesController : ControllerBase
     public async Task<IActionResult> UploadImage(IFormFile file)
     {
         var result = await _fileService.UploadImageAsync(file);
-        return Ok();
+        return Ok(result);
     }
 
     [HttpGet]

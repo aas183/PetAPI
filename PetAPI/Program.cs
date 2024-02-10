@@ -5,6 +5,8 @@ using PetAPI.Models;
 using System.Runtime.InteropServices;
 using PetAPI.Services;
 using PetAPI.Controllers;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +18,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FileService>();
 
-var connString = builder.Configuration.GetConnectionString("PetDatabaseConnection");
-builder.Services.AddDbContext<PetDatabaseContext>(o => o.UseSqlServer(connString));
+
+var keyVaultEndpoint = new Uri(builder.Configuration["VaultKey"]);
+var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+
+KeyVaultSecret kvs = secretClient.GetSecret("PetDb");
+builder.Services.AddDbContext<PetDatabaseContext>(o => o.UseSqlServer(kvs.Value));
 
 builder.Services.AddDbContext<PetDatabaseContext>();
 

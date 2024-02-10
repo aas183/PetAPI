@@ -1,5 +1,8 @@
-﻿using Azure.Storage;
+﻿using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Storage;
 using Azure.Storage.Blobs;
+using PetAPI.Data;
 using PetAPI.Models;
 
 
@@ -8,12 +11,18 @@ namespace PetAPI.Services;
 public class FileService
 {
     private readonly string _storageAccount = "petimagestorage";
-    private readonly string _key = "SZTXqgn0X2s3B42WxfI2aS8ZHL61j6BYzPTe6kqxLrcgdBczzduXWadnFMtJ8guE7B98xeSXgDpB+AStRX72QQ==";
     private readonly BlobContainerClient _fileContainer;
 
     public FileService()
     {
-        var credential = new StorageSharedKeyCredential(_storageAccount, _key);
+        
+        var keyVaultEndpoint = new Uri("https://petsecrets.vault.azure.net/");
+        var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+
+        var kvs = secretClient.GetSecret("PetBlob");
+
+        var credential = new StorageSharedKeyCredential(_storageAccount, kvs.Value.Value);
+
         var blobUri = $"https://{_storageAccount}.blob.core.windows.net";
         var blobServiceClient = new BlobServiceClient (new Uri(blobUri), credential);
         _fileContainer = blobServiceClient.GetBlobContainerClient("pet-images");
