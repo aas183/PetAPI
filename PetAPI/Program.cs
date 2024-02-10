@@ -16,6 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FileService>();
 
+var connString = builder.Configuration.GetConnectionString("PetDatabaseConnection");
+builder.Services.AddDbContext<PetDatabaseContext>(o => o.UseSqlServer(connString));
+
 builder.Services.AddDbContext<PetDatabaseContext>();
 
 var app = builder.Build();
