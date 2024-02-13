@@ -11,7 +11,7 @@ public partial class PetActivityTable
 
     public string Id { get; set; }
 
-    public bool? InOut { get; set; }
+    public string InOut { get; set; }
 
     public string Image { get; set; }
 }

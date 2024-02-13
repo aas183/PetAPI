@@ -13,5 +13,4 @@ public partial class LockingRestrictionTable
 
     public string TimeStop { get; set; }
 
-    public bool? LockUnlock { get; set; }
 }

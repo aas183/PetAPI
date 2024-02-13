@@ -59,6 +59,9 @@ public partial class PetDatabaseContext : DbContext
             entity.Property(e => e.Id)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.InOut)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Image).IsUnicode(false);
         });
 
@@ -83,6 +86,9 @@ public partial class PetDatabaseContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.InOut)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
