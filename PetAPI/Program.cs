@@ -88,9 +88,9 @@ app.MapDelete("api/DeletePetActivity/{id}", async (PetDatabaseContext db, string
 app.MapGet("api/lockRestriction", async ([FromServices] PetDatabaseContext db) =>
 { return await db.LockingRestrictionTable.ToListAsync(); });
 
-app.MapPost("api/AddLockRestriction", async ([FromServices] PetDatabaseContext db, PetActivityTable item) =>
+app.MapPost("api/AddLockRestriction", async ([FromServices] PetDatabaseContext db, LockingRestrictionTable item) =>
 {
-    db.PetActivityTable.Add(item);
+    db.LockingRestrictionTable.Add(item);
     await db.SaveChangesAsync();
     return Results.Ok(await GetPets(db));
 });
