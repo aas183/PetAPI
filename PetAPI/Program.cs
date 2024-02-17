@@ -48,21 +48,31 @@ app.MapGet("api/petInfo", async ([FromServices] PetDatabaseContext db) =>
 app.MapGet("api/petId", async ([FromServices] PetDatabaseContext db) =>
 { return await db.PetId.ToListAsync(); });
 
-app.MapPost("api/AddPet", async ([FromServices] PetDatabaseContext db, PetInformationTable item) =>
+app.MapPost("api/addPet", async ([FromServices] PetDatabaseContext db, PetInformationTable item) =>
 {
     db.PetInformationTable.Add(item);
     await db.SaveChangesAsync();
     return Results.Ok(await GetPets(db));
 });
 
-app.MapDelete("api/DeletePet/{id}", async (PetDatabaseContext db, string id) =>
+app.MapDelete("api/deletePet/{id}", async (PetDatabaseContext db, string id) =>
 {
-    var petItem = await db.PetInformationTable.FindAsync(id);
-    if (petItem == null) return Results.NotFound("Pet not Found");
-    db.Remove(petItem);
+    var pet = await db.PetInformationTable.FindAsync(id);
+    if (pet == null) return Results.NotFound("Pet not Found");
+    db.Remove(pet);
     await db.SaveChangesAsync();
     return Results.Ok(await GetPets(db));
 });
+
+app.MapPut("/pet/{id}/inOut/{inOut}", async (PetDatabaseContext db, string id, string inOut) =>
+{
+    var pet = await db.PetInformationTable.FindAsync(id);
+    if (pet == null) return Results.NotFound("Pet not Found");
+    pet.InOut = inOut;
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
 
 // Pet Activity Table
 app.MapGet("api/petActivity", async ([FromServices] PetDatabaseContext db) =>
@@ -75,7 +85,7 @@ app.MapPost("api/AddPetActivity", async ([FromServices] PetDatabaseContext db, P
     return Results.Ok(await GetPets(db));
 });
 
-app.MapDelete("api/DeletePetActivity/{id}", async (PetDatabaseContext db, string id) =>
+app.MapDelete("api/deletePetActivity/{id}", async (PetDatabaseContext db, string id) =>
 {
     var petItem = await db.PetActivityTable.FindAsync(id);
     if (petItem == null) return Results.NotFound("Pet not Found");
@@ -88,14 +98,14 @@ app.MapDelete("api/DeletePetActivity/{id}", async (PetDatabaseContext db, string
 app.MapGet("api/lockRestriction", async ([FromServices] PetDatabaseContext db) =>
 { return await db.LockingRestrictionTable.ToListAsync(); });
 
-app.MapPost("api/AddLockRestriction", async ([FromServices] PetDatabaseContext db, LockingRestrictionTable item) =>
+app.MapPost("api/addLockRestriction", async ([FromServices] PetDatabaseContext db, LockingRestrictionTable item) =>
 {
     db.LockingRestrictionTable.Add(item);
     await db.SaveChangesAsync();
     return Results.Ok(await GetPets(db));
 });
 
-app.MapDelete("api/DeleteLockRestriction/{id}", async (PetDatabaseContext db, string id) =>
+app.MapDelete("api/deleteLockRestriction/{id}", async (PetDatabaseContext db, string id) =>
 {
     var petItem = await db.LockingRestrictionTable.FindAsync(id);
     if (petItem == null) return Results.NotFound("Pet not Found");
