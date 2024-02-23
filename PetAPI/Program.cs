@@ -64,7 +64,7 @@ app.MapDelete("api/deletePet/{id}", async (PetDatabaseContext db, string id) =>
     return Results.Ok(await GetPets(db));
 });
 
-app.MapPut("/pet/{id}/inOut/{inOut}", async (PetDatabaseContext db, string id, string inOut) =>
+app.MapPut("api/pet/{id}/inOut/{inOut}", async (PetDatabaseContext db, string id, string inOut) =>
 {
     var pet = await db.PetInformationTable.FindAsync(id);
     if (pet == null) return Results.NotFound("Pet not Found");
@@ -73,7 +73,7 @@ app.MapPut("/pet/{id}/inOut/{inOut}", async (PetDatabaseContext db, string id, s
     return Results.NoContent();
 });
 
-app.MapPut("/pet/{id}/name/{name}", async (PetDatabaseContext db, string id, string name) =>
+app.MapPut("api/pet/{id}/name/{name}", async (PetDatabaseContext db, string id, string name) =>
 {
     var pet = await db.PetInformationTable.FindAsync(id);
     if (pet == null) return Results.NotFound("Pet not Found");
@@ -82,7 +82,7 @@ app.MapPut("/pet/{id}/name/{name}", async (PetDatabaseContext db, string id, str
     return Results.NoContent();
 });
 
-app.MapPut("/pet/{id}/image/{image}", async (PetDatabaseContext db, string id, string image) =>
+app.MapPut("api/pet/{id}/image/{image}", async (PetDatabaseContext db, string id, string image) =>
 {
     var pet = await db.PetInformationTable.FindAsync(id);
     if (pet == null) return Results.NotFound("Pet not Found");
