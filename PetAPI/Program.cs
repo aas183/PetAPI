@@ -86,7 +86,7 @@ app.MapPut("api/pet/{id}/image/{image}", async (PetDatabaseContext db, string id
 {
     var pet = await db.PetInformationTable.FindAsync(id);
     if (pet == null) return Results.NotFound("Pet not Found");
-    pet.Image = image;
+    pet.Image = $"https://petimagestorage.blob.core.windows.net/{image}";
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
