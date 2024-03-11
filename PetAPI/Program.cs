@@ -64,11 +64,11 @@ app.MapDelete("api/deletePet/{id}", async (PetDatabaseContext db, string id) =>
     return Results.Ok(await GetPets(db));
 });
 
-app.MapPut("api/pet/{id}/inOut/{newId}", async (PetDatabaseContext db, string id, string newId) =>
+app.MapPut("api/pet/{id}/id/{newId}", async (PetDatabaseContext db, string id, string newId) =>
 {
     var pet = await db.PetInformationTable.FindAsync(id);
     if (pet == null) return Results.NotFound("Pet not Found");
-    pet.Id = newId;
+    pet.Name = newId;
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
