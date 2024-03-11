@@ -68,7 +68,7 @@ app.MapPut("api/pet/{id}/id/{newId}", async (PetDatabaseContext db, string id, s
 {
     var pet = await db.PetInformationTable.FindAsync(id);
     if (pet == null) return Results.NotFound("Pet not Found");
-    pet.Name = newId;
+    pet.Id = newId;
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
