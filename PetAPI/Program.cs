@@ -121,6 +121,15 @@ app.MapDelete("api/deletePetActivity/{id}", async (PetDatabaseContext db, string
     return Results.Ok(await GetPets(db));
 });
 
+app.MapPut("api/activity/{id}/image/{image}", async (PetDatabaseContext db, string id, string image) =>
+{
+    var activity = await db.PetActivityTable.FindAsync(id);
+    if (activity == null) return Results.NotFound("Activity not Found");
+    activity.Image = $"https://petimagestorage.blob.core.windows.net/pet-images/{image}";
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
 // Locking Restriction Table
 app.MapGet("api/lockRestriction", async ([FromServices] PetDatabaseContext db) =>
 { return await db.LockingRestrictionTable.ToListAsync(); });
