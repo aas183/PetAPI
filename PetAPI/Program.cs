@@ -141,7 +141,7 @@ app.MapPost("api/addLockRestriction", async ([FromServices] PetDatabaseContext d
     return Results.Ok(await GetPets(db));
 });
 
-app.MapDelete("api/deleteLockRestriction/{id}", async (PetDatabaseContext db, string id) =>
+app.MapDelete("api/deleteLockRestriction/{id}", async (PetDatabaseContext db, int id) =>
 {
     var petItem = await db.LockingRestrictionTable.FindAsync(id);
     if (petItem == null) return Results.NotFound("Pet not Found");
