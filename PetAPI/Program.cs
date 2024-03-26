@@ -40,6 +40,8 @@ app.UseAuthentication();
 app.MapControllers();
 
 async Task<List<PetInformationTable>> GetPets(PetDatabaseContext db) => await db.PetInformationTable.ToListAsync();
+async Task<List<PetActivityTable>> GetPetActivity(PetDatabaseContext db) => await db.PetActivityTable.ToListAsync();
+async Task<List<LockingRestrictionTable>> GetLocks(PetDatabaseContext db) => await db.LockingRestrictionTable.ToListAsync();
 
 // Pet Info Table 
 app.MapGet("api/petInfo", async ([FromServices] PetDatabaseContext db) =>
@@ -109,7 +111,7 @@ app.MapPost("api/AddPetActivity", async ([FromServices] PetDatabaseContext db, P
 {
     db.PetActivityTable.Add(item);
     await db.SaveChangesAsync();
-    return Results.Ok(await GetPets(db));
+    return Results.Ok(await GetPetActivity(db));
 });
 
 app.MapDelete("api/deletePetActivity/{id}", async (PetDatabaseContext db, string id) =>
@@ -118,7 +120,7 @@ app.MapDelete("api/deletePetActivity/{id}", async (PetDatabaseContext db, string
     if (petItem == null) return Results.NotFound("Pet not Found");
     db.Remove(petItem);
     await db.SaveChangesAsync();
-    return Results.Ok(await GetPets(db));
+    return Results.Ok(await GetPetActivity(db));
 });
 
 app.MapPut("api/activity/{id}/image/{image}", async (PetDatabaseContext db, string id, string image) =>
@@ -138,7 +140,7 @@ app.MapPost("api/addLockRestriction", async ([FromServices] PetDatabaseContext d
 {
     db.LockingRestrictionTable.Add(item);
     await db.SaveChangesAsync();
-    return Results.Ok(await GetPets(db));
+    return Results.Ok(await GetLocks(db));
 });
 
 app.MapDelete("api/deleteLockRestriction/{id}", async (PetDatabaseContext db, int id) =>
@@ -147,7 +149,7 @@ app.MapDelete("api/deleteLockRestriction/{id}", async (PetDatabaseContext db, in
     if (petItem == null) return Results.NotFound("Pet not Found");
     db.Remove(petItem);
     await db.SaveChangesAsync();
-    return Results.Ok(await GetPets(db));
+    return Results.Ok(await GetLocks(db));
 });
 
 
