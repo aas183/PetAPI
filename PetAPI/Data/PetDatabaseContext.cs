@@ -39,10 +39,22 @@ public partial class PetDatabaseContext : DbContext
             entity.ToTable("Locking_Restriction_Table");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.TimeStart)
+            entity.Property(e => e.TimeStartDay)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.TimeStop)
+            entity.Property(e => e.TimeStartHour)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TimeStartMinute)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TimeStopDay)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TimeStopHour)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TimeStopMinute)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
